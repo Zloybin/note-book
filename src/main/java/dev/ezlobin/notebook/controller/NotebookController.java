@@ -2,7 +2,6 @@ package dev.ezlobin.notebook.controller;
 
 import dev.ezlobin.notebook.dto.NotebookDto;
 import dev.ezlobin.notebook.entity.Notebook;
-import dev.ezlobin.notebook.mapper.NotebookMapper;
 import dev.ezlobin.notebook.service.NotebookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,20 +9,27 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/notebooks")
 public class NotebookController {
-    private NotebookService notebookService;
+    private final NotebookService notebookService;
 
     @Autowired
     public NotebookController(NotebookService notebookService) {
         this.notebookService = notebookService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<Notebook>> getAll(){
+        List<Notebook> notebooks = notebookService.findAll();
+        return ResponseEntity.ok(notebooks);
+    }
     @GetMapping("/{id}")
-    public Notebook getNotebook(@PathVariable("id") String id) {
-        return notebookService.findById(id);
+    public ResponseEntity<Notebook> getNotebook(@PathVariable("id") String id) {
+        Notebook notebook = notebookService.findById(id);
+        return ResponseEntity.ok(notebook);
     }
 
     @PostMapping
@@ -41,12 +47,13 @@ public class NotebookController {
     public ResponseEntity<Notebook> updateNotebook(@RequestBody NotebookDto notebookDto,
                                                    @PathVariable String id) {
         Notebook updatedNotebook = notebookService.update(notebookDto, id);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(updatedNotebook.getId())
-                .toUri();
-        return ResponseEntity.created(location).body(updatedNotebook);
+        return ResponseEntity.ok(updatedNotebook);
+    }
+
+    @DeleteMapping()
+    private ResponseEntity<Void> deleteAll(){
+        notebookService.deleteAll();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

@@ -29,6 +29,8 @@ public class NotebookMapper implements Mapper<Notebook, NotebookDto> {
             throw new NotebookMapperException(message);
         }
 
-        return new Notebook(dto.getAuthor(), Color.valueOf(colorName));
+        Notebook notebook = new Notebook(dto.getAuthor(), Color.valueOf(colorName));
+
+        return notebook;
     }
 }

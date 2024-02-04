@@ -1,5 +1,6 @@
 package dev.ezlobin.notebook.exception.handler;
 
+import dev.ezlobin.notebook.exception.NoteMapperException;
 import dev.ezlobin.notebook.exception.WrongRequestDataException;
 import dev.ezlobin.notebook.exception.NotebookMapperException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WrongRequestDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleValidationException(WrongRequestDataException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(NoteMapperException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleValidationException(NoteMapperException ex){
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
