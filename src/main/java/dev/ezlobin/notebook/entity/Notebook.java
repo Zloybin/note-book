@@ -28,7 +28,7 @@ public class Notebook {
     private Color color;
     @CreatedDate
     private LocalDateTime creationDate;
-    @DBRef
+//    @DBRef
     private List<Note> notes;
 
     public Notebook(String author, Color color) {

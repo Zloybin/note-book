@@ -59,7 +59,7 @@ class NotebookServiceTest {
     }
 
     @Test
-    public void testSave_ShouldThrowException_WhenInsertedNull(){
+    void testSave_ShouldThrowException_WhenInsertedNull(){
         WrongRequestDataException thrown = assertThrows(WrongRequestDataException.class, () -> notebookService.save(null));
         assertEquals("An exception was thrown while saving notebook! The entity being stored can't be null", thrown.getMessage());
     }

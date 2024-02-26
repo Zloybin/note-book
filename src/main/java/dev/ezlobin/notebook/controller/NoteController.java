@@ -22,14 +22,18 @@ public class NoteController {
         this.noteService = noteService;
     }
 
+    @Autowired
+    public NoteController() {
+    }
+
     @GetMapping
-    private ResponseEntity<List<Note>> getAll(){
+    ResponseEntity<List<Note>> getAll(){
         List<Note> notes = noteService.findAll();
         return ResponseEntity.ok(notes);
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Note> findById(@PathVariable("id") String id){
+    ResponseEntity<Note> findById(@PathVariable("id") String id){
         Note note = noteService.findById(id);
         return ResponseEntity.ok(note);
     }
